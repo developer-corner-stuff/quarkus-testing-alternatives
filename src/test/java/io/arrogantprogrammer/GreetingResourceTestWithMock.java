@@ -32,7 +32,9 @@ public class GreetingResourceTestWithMock {
     @Test
     public void testQuoteEndpoint() {
 
-        Mockito.when(quotesService.randomQuote()).thenReturn(new Quote("Sometimes you eat the bear, and sometimes, well, he eats you.", "The Stranger"));
+        Mockito.when(
+                quotesService.randomQuote())
+                .thenReturn(new Quote("Sometimes you eat the bear, and sometimes, well, he eats you.", "The Stranger"));
 
         given()
                 .when().get("/quote")
