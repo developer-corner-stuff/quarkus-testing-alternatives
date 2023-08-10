@@ -1,24 +1,20 @@
 package io.arrogantprogrammer;
 
-import io.quarkus.test.InjectMock;
-import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.anyOf;
 
 @QuarkusTest
-public class GreetingResourceTestWithMock {
+@TestProfile(AlternativeCastServiceProfile.class)
+public class GreetingResourceWithAlternativeTest {
 
-    @InjectMock
-    QuotesService quotesService;
-
+    @Inject
+    CastService castService;
 
     @Test
     public void testHelloEndpoint() {
@@ -30,16 +26,13 @@ public class GreetingResourceTestWithMock {
     }
 
     @Test
-    public void testQuoteEndpoint() {
-
-        Mockito.when(
-                quotesService.randomQuote())
-                .thenReturn(new Quote("Sometimes you eat the bear, and sometimes, well, he eats you.", "The Stranger"));
+    public void testCastEndpoint() {
 
         given()
-                .when().get("/quote")
+                .when().get("/cast")
                 .then()
                 .statusCode(200)
-                .body(anyOf(containsString("Stranger")));
+                .body(containsString("The Big Lebowski"));
     }
+
 }

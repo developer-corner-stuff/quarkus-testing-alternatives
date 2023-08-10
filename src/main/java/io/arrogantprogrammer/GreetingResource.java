@@ -7,6 +7,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/")
+@Produces(MediaType.TEXT_PLAIN)
 public class GreetingResource {
 
     @Inject
@@ -15,9 +16,11 @@ public class GreetingResource {
     @Inject
     QuotesService quotesService;
 
+    @Inject
+    CastService castService;
+
     @GET
     @Path("/hello")
-    @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
 
         return greetingService.randomGreeting().getValue();
@@ -25,10 +28,17 @@ public class GreetingResource {
 
     @GET
     @Path("/quote")
-    @Produces(MediaType.TEXT_PLAIN)
     public String quote() {
         Quote quote = quotesService.randomQuote();
         return String.format("\"%s\" - %s", quote.getText(), quote.getAuthor());
     }
+
+    @GET
+    @Path("/cast")
+    public String castMember() {
+        CastMember castMember = castService.randomCastMember();
+        return String.format("%s - %s", castMember.getCharacter(), castMember.getName());
+    }
+
 
 }
